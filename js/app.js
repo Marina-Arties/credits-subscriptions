@@ -85,10 +85,12 @@ const App = {
 
         const newPaid = credit.actualPaidTotal + paymentAmount;
         const newRemaining = Math.max(0, credit.remainingDebt - paymentAmount);
+        const now = new Date();
 
         Storage.updateCredit(id, {
             actualPaidTotal: newPaid,
-            remainingDebt: newRemaining
+            remainingDebt: newRemaining,
+            lastPaymentMonth: `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
         });
 
         UI.showToast(`Платёж ${UI.fmoney(paymentAmount)} внесён. Остаток: ${UI.fmoney(newRemaining)}`);

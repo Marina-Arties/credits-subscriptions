@@ -8,7 +8,7 @@ const Reminders = {
         const currentYear = today.getFullYear();
 
         const upcoming = [];
-        const settings = Storage.getSettings();
+        const currentMonthKey = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`;
 
         const isWithinWindow = (paymentDay) => {
             if (paymentDay < currentDay) {
@@ -29,6 +29,7 @@ const Reminders = {
 
         const credits = Storage.getCredits();
         credits.forEach(c => {
+            if (c.lastPaymentMonth === currentMonthKey) return;
             if (isWithinWindow(c.paymentDay)) {
                 upcoming.push({
                     type: 'credit',
